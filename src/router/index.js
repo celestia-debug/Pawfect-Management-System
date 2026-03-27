@@ -1,50 +1,72 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import Login from '../views/Login.vue'
-import Dashboard from '../views/Dashboard.vue'
-import DashboardOverview from '../views/DashboardOverview.vue'
-import MedicalRecords from '../views/MedicalRecords.vue'
-import Vaccinations from '../views/Vaccinations.vue'
-import Prescriptions from '../views/Prescriptions.vue'
-import Appointments from '../views/Appointments.vue'
-import Transparency from '../views/Transparency.vue'
-import Inventory from '../views/Inventory.vue'
-
-import StaffDashboard from '../views/staff/StaffDashboard.vue'
-import StaffOverview from '../views/staff/StaffOverview.vue'
-import StaffInventory from '../views/staff/StaffInventory.vue'
-import StaffMedicalRecords from '../views/staff/StaffMedicalRecords.vue'
-import StaffVaccinations from '../views/staff/StaffVaccinations.vue'
-import StaffAppointments from '../views/staff/StaffAppointments.vue'
-import StaffTransparency from '../views/staff/StaffTransparency.vue'
+import Register from '../views/Register.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', component: Login },
-    { 
-      path: '/dashboard', 
-      component: Dashboard,
+    { path: '/', name: 'Login', component: Login },
+    { path: '/register', name: 'Register', component: Register },
+    
+    // CUSTOMER PORTAL
+    {
+      path: '/customer',
+      component: () => import('../views/customer/CustomerDashboard.vue'),
       children: [
-        { path: '', component: DashboardOverview },
-        { path: 'medical-records', component: MedicalRecords },
-        { path: 'vaccinations', component: Vaccinations },
-        { path: 'prescriptions', component: Prescriptions },
-        { path: 'appointments', component: Appointments },
-        { path: 'transparency', component: Transparency },
-        { path: 'inventory', component: Inventory }
+        { path: '', name: 'CustomerHome', component: () => import('../views/customer/CustomerHome.vue') },
+        { path: 'book-appointment', name: 'CustomerBook', component: () => import('../views/customer/CustomerBook.vue') }
       ]
     },
+
+    // VET PORTAL (FULLY MAPPED)
+    {
+      path: '/vet',
+      component: () => import('../views/vet/VetDashboard.vue'),
+      children: [
+        { 
+          path: '', 
+          name: 'VetOverview', 
+          component: () => import('../views/vet/VetOverview.vue') 
+        },
+        { 
+          path: 'medical-records', 
+          name: 'VetMedicalRecords', 
+          component: () => import('../views/vet/VetMedicalRecords.vue') 
+        },
+        { 
+          path: 'vaccinations', 
+          name: 'VetVaccinations', 
+          component: () => import('../views/vet/VetVaccinations.vue') 
+        },
+        { 
+          path: 'appointments', 
+          name: 'VetAppointments', 
+          component: () => import('../views/vet/VetAppointments.vue') 
+        }
+      ]
+    },
+
+   // STAFF PORTAL
     {
       path: '/staff',
-      component: StaffDashboard,
+      component: () => import('../views/staff/StaffDashboard.vue'),
       children: [
-        { path: '', component: StaffOverview },
-        { path: 'inventory', component: StaffInventory },
-        { path: 'medical-records', component: StaffMedicalRecords },
-        { path: 'vaccinations', component: StaffVaccinations },
-        { path: 'appointments', component: StaffAppointments },
-        { path: 'transparency', component: StaffTransparency }
+        { path: '', name: 'StaffOverview', component: () => import('../views/staff/StaffOverview.vue') },
+        { path: 'medical-records', name: 'StaffMedicalRecords', component: () => import('../views/staff/StaffMedicalRecords.vue') },
+        { path: 'vaccinations', name: 'StaffVaccinations', component: () => import('../views/staff/StaffVaccinations.vue') },
+        { path: 'appointments', name: 'StaffAppointments', component: () => import('../views/staff/StaffAppointments.vue') },
+        { path: 'transparency', name: 'StaffTransparency', component: () => import('../views/staff/StaffTransparency.vue') },
+        { path: 'inventory', name: 'StaffInventory', component: () => import('../views/staff/StaffInventory.vue') }
+      ]
+    },
+
+    // ADMIN PORTAL
+    {
+      path: '/admin',
+      component: () => import('../views/Admin/Dashboard.vue'),
+      children: [
+        { path: '', name: 'AdminOverview', component: () => import('../views/Admin/DashboardOverview.vue') },
+        { path: 'inventory', name: 'AdminInventory', component: () => import('../views/Admin/Inventory.vue') }
       ]
     }
   ]

@@ -35,6 +35,7 @@ const nextMonth = () => {
   currentMonthDate.value = new Date(currentMonthDate.value.getFullYear(), currentMonthDate.value.getMonth() + 1, 1)
 }
 
+
 const selectDay = (day) => {
   if (day) selectedDate.value = day
 }

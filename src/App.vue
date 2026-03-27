@@ -1,3 +1,13 @@
 <template>
-  <router-view></router-view>
+  <router-view />
 </template>
+
+<style>
+/* Basic reset to make sure the app fills the screen */
+body, html, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+</style>
